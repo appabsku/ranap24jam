@@ -179,7 +179,7 @@
   /* ---------- MAIN SCROLL AREA ---------- */
   main{
     flex:1;
-    padding:22px 16px 90px;
+    padding:16px 16px 80px;
     overflow-y:auto;
     overflow-x:hidden;
     overscroll-behavior-y:contain;
@@ -187,7 +187,7 @@
   }
   .section-head{
     display:flex; align-items:baseline; justify-content:space-between;
-    margin-bottom:12px;
+    margin-bottom:8px;
   }
   .section-head h2{
     font-family:'Plus Jakarta Sans', sans-serif;
@@ -208,11 +208,11 @@
   }
 
   /* ---------- SCHEDULE — split panel (nama tetap + tanggal geser) ---------- */
-  :root{ --row-h:46px; --names-w:118px; --cell-w:38px; }
+  :root{ --row-h:32px; --names-w:92px; --cell-w:32px; }
 
   /* -- kontrol geser tanggal: tombol panah + label rentang tanggal -- */
   .sched-controls{
-    display:flex; align-items:center; gap:6px;
+    display:flex; align-items:center; gap:8px;
   }
   .sched-range-label{
     font-size:11px; font-weight:700; color:var(--green-700);
@@ -220,18 +220,33 @@
     font-variant-numeric:tabular-nums;
   }
   .sched-arrow-btn{
-    width:26px; height:26px; border-radius:50%;
-    border:1px solid var(--gray-line);
-    background:var(--white);
+    width:38px; height:38px; border-radius:50%;
+    border:1.5px solid var(--green-500);
+    background:var(--green-100);
     display:flex; align-items:center; justify-content:center;
     color:var(--green-700);
     cursor:pointer; flex-shrink:0; padding:0;
     -webkit-tap-highlight-color:transparent;
-    transition:background 0.15s ease, opacity 0.15s ease;
+    transition:background 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
   }
-  .sched-arrow-btn svg{ width:13px; height:13px; }
-  .sched-arrow-btn:active{ background:var(--green-100); }
+  .sched-arrow-btn svg{ width:18px; height:18px; }
+  .sched-arrow-btn:active{ background:var(--green-500); color:var(--white); transform:scale(0.94); }
   .sched-arrow-btn:disabled{ opacity:0.35; pointer-events:none; }
+
+  .sched-hint{
+    display:flex; align-items:center; gap:6px;
+    background:var(--green-100);
+    color:var(--green-900);
+    font-size:11px; font-weight:600;
+    padding:7px 10px;
+    border-radius:9px;
+    margin-bottom:10px;
+  }
+  .sched-hint svg{ width:14px; height:14px; flex-shrink:0; animation:hint-swipe 1.6s ease-in-out infinite; }
+  @keyframes hint-swipe{
+    0%, 100%{ transform:translateX(0); }
+    50%{ transform:translateX(4px); }
+  }
 
   .sched-card{
     display:flex;
@@ -251,10 +266,10 @@
     background:var(--white);
   }
   .sched-names-head{
-    height:36px;
+    height:26px;
     display:flex; align-items:center;
-    padding-left:12px;
-    font-size:10px; font-weight:700; color:var(--green-900);
+    padding-left:8px;
+    font-size:9px; font-weight:700; color:var(--green-900);
     background:var(--green-50);
     border-bottom:1px solid var(--gray-line);
     letter-spacing:0.02em;
@@ -262,9 +277,9 @@
   .name-row{
     height:var(--row-h);
     display:flex; align-items:center;
-    padding-left:12px; padding-right:6px;
+    padding-left:8px; padding-right:4px;
     border-bottom:1px solid var(--gray-line);
-    font-size:12.5px; font-weight:800; color:var(--ink);
+    font-size:10px; font-weight:800; color:var(--ink);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     letter-spacing:-0.01em;
   }
@@ -288,7 +303,7 @@
   .sched-scroll::-webkit-scrollbar{ display:none; }
   .sched-grid{ display:inline-block; min-width:100%; }
   .sched-grid-head{
-    height:36px;
+    height:26px;
     display:flex;
     background:var(--green-50);
     border-bottom:1px solid var(--gray-line);
@@ -296,7 +311,7 @@
   .sched-grid-head .day-th{
     flex:0 0 var(--cell-w); width:var(--cell-w);
     display:flex; align-items:center; justify-content:center;
-    font-size:10px; font-weight:700; color:var(--green-900);
+    font-size:9px; font-weight:700; color:var(--green-900);
   }
   .sched-grid-head .day-th.day-red{ color:#dc2626; }
   .grid-row{
@@ -311,9 +326,9 @@
     display:flex; align-items:center; justify-content:center;
   }
   .cell-static{
-    width:28px; height:29px;
-    border-radius:7px;
-    font-size:11px;
+    width:23px; height:22px;
+    border-radius:6px;
+    font-size:9.5px;
     font-weight:800;
     color:#c7d1cb;
     display:flex; align-items:center; justify-content:center;
@@ -337,7 +352,7 @@
   /* petunjuk kalau masih ada tanggal di sebelah kanan/kiri yang belum terlihat */
   .sched-scroll-outer::after{
     content:"";
-    position:absolute; top:36px; bottom:0; right:0;
+    position:absolute; top:26px; bottom:0; right:0;
     width:18px;
     background:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.95));
     pointer-events:none;
@@ -347,7 +362,7 @@
   .sched-scroll-outer.at-end::after{ opacity:0; }
   .sched-scroll-outer::before{
     content:"";
-    position:absolute; top:36px; bottom:0; left:0;
+    position:absolute; top:26px; bottom:0; left:0;
     width:18px;
     background:linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,0.95));
     pointer-events:none;
@@ -398,35 +413,35 @@
 
   /* ---------- RECAP LIST ---------- */
   .recap-item{
-    display:flex; align-items:center; gap:10px;
-    padding:12px 4px;
+    display:flex; align-items:center; gap:7px;
+    padding:6px 4px;
     border-bottom:1px solid var(--gray-line);
   }
   .recap-item:last-child{ border-bottom:none; }
   .avatar{
-    width:34px; height:34px; border-radius:50%;
+    width:26px; height:26px; border-radius:50%;
     background:var(--green-100); color:var(--green-700);
-    font-weight:800; font-size:13px;
+    font-weight:800; font-size:11px;
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
     font-variant-numeric:tabular-nums;
   }
-  .recap-name{ font-size:13px; font-weight:700; flex:1; min-width:0; }
+  .recap-name{ font-size:11.5px; font-weight:700; flex:1; min-width:0; }
   .recap-name-txt{
     display:block;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .recap-jam{
-    font-weight:500; color:var(--gray-txt); font-size:10.5px; margin-top:2px;
+    font-weight:500; color:var(--gray-txt); font-size:9px; margin-top:1px;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .recap-tags{ display:flex; gap:4px; flex-shrink:0; }
+  .recap-tags{ display:flex; gap:3px; flex-shrink:0; }
   .tag{
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    border-radius:8px; padding:4px 6px; min-width:27px; text-align:center; line-height:1.2;
+    border-radius:6px; padding:2px 4px; min-width:21px; text-align:center; line-height:1.15;
   }
-  .tag .tag-lbl{ font-size:9.5px; font-weight:700; opacity:0.8; }
-  .tag .tag-val{ font-size:15px; font-weight:800; margin-top:1px; }
+  .tag .tag-lbl{ font-size:8px; font-weight:700; opacity:0.8; }
+  .tag .tag-val{ font-size:12px; font-weight:800; margin-top:0; }
   .tag.P{ background:#e3f8ee; color:var(--green-700);}
   .tag.S{ background:var(--amber-bg); color:#a9740f;}
   .tag.M{ background:var(--indigo-bg); color:var(--indigo);}
@@ -689,6 +704,10 @@
             <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
+      </div>
+      <div class="sched-hint">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Ketuk tombol panah atau geser tabel ke kiri/kanan untuk melihat tanggal lain
       </div>
       <div class="sched-card">
         <div class="sched-names">
@@ -1042,7 +1061,7 @@
   }
 
   // ---- kontrol geser tanggal: tombol panah (geser 1 tanggal per tap) + label rentang ----
-  const CELL_W = 38; // harus sama dengan --cell-w di CSS
+  const CELL_W = 32; // harus sama dengan --cell-w di CSS
   const schedScroll = document.getElementById("schedScroll");
   const schedScrollOuter = document.getElementById("schedScrollOuter");
   const schedRangeLabel = document.getElementById("schedRangeLabel");
