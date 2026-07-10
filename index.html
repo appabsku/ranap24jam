@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -179,7 +180,7 @@
   /* ---------- MAIN SCROLL AREA ---------- */
   main{
     flex:1;
-    padding:16px 16px 80px;
+    padding:14px 16px 14px;
     overflow-y:auto;
     overflow-x:hidden;
     overscroll-behavior-y:contain;
@@ -1377,6 +1378,14 @@
       btn.classList.add("active");
       document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
       document.getElementById("view-" + btn.dataset.view).classList.add("active");
+
+      // Saat tab "Jadwal" baru saja ditampilkan, lebar area geser tanggal baru
+      // benar-benar terukur (sebelumnya 0 karena tersembunyi/display:none),
+      // jadi kontrol panah & label rentang tanggal harus dihitung ulang di sini
+      // supaya tombol panah langsung aktif tanpa perlu digeser manual dulu.
+      if(btn.dataset.view === "jadwal"){
+        requestAnimationFrame(updateSchedControls);
+      }
     });
   });
 
