@@ -187,7 +187,7 @@
   }
   .section-head{
     display:flex; align-items:baseline; justify-content:space-between;
-    margin-bottom:8px;
+    margin-bottom:6px;
   }
   .section-head h2{
     font-family:'Plus Jakarta Sans', sans-serif;
@@ -208,7 +208,7 @@
   }
 
   /* ---------- SCHEDULE — split panel (nama tetap + tanggal geser) ---------- */
-  :root{ --row-h:32px; --names-w:92px; --cell-w:32px; }
+  :root{ --row-h:26px; --names-w:84px; --cell-w:28px; }
 
   /* -- kontrol geser tanggal: tombol panah + label rentang tanggal -- */
   .sched-controls{
@@ -234,15 +234,17 @@
   .sched-arrow-btn:disabled{ opacity:0.35; pointer-events:none; }
 
   .sched-hint{
-    display:flex; align-items:center; gap:6px;
+    display:flex; align-items:center; gap:5px;
     background:var(--green-100);
     color:var(--green-900);
-    font-size:11px; font-weight:600;
-    padding:7px 10px;
-    border-radius:9px;
-    margin-bottom:10px;
+    font-size:9.5px;
+    font-weight:600;
+    line-height:1.25;
+    padding:5px 8px;
+    border-radius:8px;
+    margin-bottom:6px;
   }
-  .sched-hint svg{ width:14px; height:14px; flex-shrink:0; animation:hint-swipe 1.6s ease-in-out infinite; }
+  .sched-hint svg{ width:12px; height:12px; flex-shrink:0; animation:hint-swipe 1.6s ease-in-out infinite; }
   @keyframes hint-swipe{
     0%, 100%{ transform:translateX(0); }
     50%{ transform:translateX(4px); }
@@ -266,10 +268,10 @@
     background:var(--white);
   }
   .sched-names-head{
-    height:26px;
+    height:22px;
     display:flex; align-items:center;
-    padding-left:8px;
-    font-size:9px; font-weight:700; color:var(--green-900);
+    padding-left:6px;
+    font-size:8px; font-weight:700; color:var(--green-900);
     background:var(--green-50);
     border-bottom:1px solid var(--gray-line);
     letter-spacing:0.02em;
@@ -277,11 +279,11 @@
   .name-row{
     height:var(--row-h);
     display:flex; align-items:center;
-    padding-left:8px; padding-right:4px;
+    padding-left:6px; padding-right:3px;
     border-bottom:1px solid var(--gray-line);
-    font-size:10px; font-weight:800; color:var(--ink);
+    font-size:9px; font-weight:800; color:var(--ink);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    letter-spacing:-0.01em;
+    letter-spacing:-0.02em;
   }
   .sched-names .name-row:nth-child(even){ background:#fbfefc; }
   .sched-names .name-row:last-child{ border-bottom:none; }
@@ -303,7 +305,7 @@
   .sched-scroll::-webkit-scrollbar{ display:none; }
   .sched-grid{ display:inline-block; min-width:100%; }
   .sched-grid-head{
-    height:26px;
+    height:22px;
     display:flex;
     background:var(--green-50);
     border-bottom:1px solid var(--gray-line);
@@ -311,7 +313,7 @@
   .sched-grid-head .day-th{
     flex:0 0 var(--cell-w); width:var(--cell-w);
     display:flex; align-items:center; justify-content:center;
-    font-size:9px; font-weight:700; color:var(--green-900);
+    font-size:8px; font-weight:700; color:var(--green-900);
   }
   .sched-grid-head .day-th.day-red{ color:#dc2626; }
   .grid-row{
@@ -326,9 +328,9 @@
     display:flex; align-items:center; justify-content:center;
   }
   .cell-static{
-    width:23px; height:22px;
-    border-radius:6px;
-    font-size:9.5px;
+    width:19px; height:18px;
+    border-radius:5px;
+    font-size:8px;
     font-weight:800;
     color:#c7d1cb;
     display:flex; align-items:center; justify-content:center;
@@ -352,7 +354,7 @@
   /* petunjuk kalau masih ada tanggal di sebelah kanan/kiri yang belum terlihat */
   .sched-scroll-outer::after{
     content:"";
-    position:absolute; top:26px; bottom:0; right:0;
+    position:absolute; top:22px; bottom:0; right:0;
     width:18px;
     background:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.95));
     pointer-events:none;
@@ -362,7 +364,7 @@
   .sched-scroll-outer.at-end::after{ opacity:0; }
   .sched-scroll-outer::before{
     content:"";
-    position:absolute; top:26px; bottom:0; left:0;
+    position:absolute; top:22px; bottom:0; left:0;
     width:18px;
     background:linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,0.95));
     pointer-events:none;
@@ -413,35 +415,35 @@
 
   /* ---------- RECAP LIST ---------- */
   .recap-item{
-    display:flex; align-items:center; gap:7px;
-    padding:6px 4px;
+    display:flex; align-items:center; gap:6px;
+    padding:4px 3px;
     border-bottom:1px solid var(--gray-line);
   }
   .recap-item:last-child{ border-bottom:none; }
   .avatar{
-    width:26px; height:26px; border-radius:50%;
+    width:22px; height:22px; border-radius:50%;
     background:var(--green-100); color:var(--green-700);
-    font-weight:800; font-size:11px;
+    font-weight:800; font-size:10px;
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
     font-variant-numeric:tabular-nums;
   }
-  .recap-name{ font-size:11.5px; font-weight:700; flex:1; min-width:0; }
+  .recap-name{ font-size:10.5px; font-weight:700; flex:1; min-width:0; }
   .recap-name-txt{
     display:block;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .recap-jam{
-    font-weight:500; color:var(--gray-txt); font-size:9px; margin-top:1px;
+    font-weight:500; color:var(--gray-txt); font-size:8px; margin-top:0;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .recap-tags{ display:flex; gap:3px; flex-shrink:0; }
+  .recap-tags{ display:flex; gap:2px; flex-shrink:0; }
   .tag{
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    border-radius:6px; padding:2px 4px; min-width:21px; text-align:center; line-height:1.15;
+    border-radius:5px; padding:2px 3px; min-width:18px; text-align:center; line-height:1.1;
   }
-  .tag .tag-lbl{ font-size:8px; font-weight:700; opacity:0.8; }
-  .tag .tag-val{ font-size:12px; font-weight:800; margin-top:0; }
+  .tag .tag-lbl{ font-size:7px; font-weight:700; opacity:0.8; }
+  .tag .tag-val{ font-size:10.5px; font-weight:800; margin-top:0; }
   .tag.P{ background:#e3f8ee; color:var(--green-700);}
   .tag.S{ background:var(--amber-bg); color:#a9740f;}
   .tag.M{ background:var(--indigo-bg); color:var(--indigo);}
@@ -1061,7 +1063,7 @@
   }
 
   // ---- kontrol geser tanggal: tombol panah (geser 1 tanggal per tap) + label rentang ----
-  const CELL_W = 32; // harus sama dengan --cell-w di CSS
+  const CELL_W = 28; // harus sama dengan --cell-w di CSS
   const schedScroll = document.getElementById("schedScroll");
   const schedScrollOuter = document.getElementById("schedScrollOuter");
   const schedRangeLabel = document.getElementById("schedRangeLabel");
@@ -1084,13 +1086,40 @@
     schedRangeLabel.textContent = DAYS_IN_MONTH ? (firstDay + "–" + lastDay) : "–";
   }
 
-  // tombol: geser tepat 1 kolom tanggal per tap, jadi pergerakannya presisi per tanggal
-  schedPrevBtn.addEventListener("click", () => {
-    schedScroll.scrollBy({ left: -CELL_W, behavior: "smooth" });
-  });
-  schedNextBtn.addEventListener("click", () => {
-    schedScroll.scrollBy({ left: CELL_W, behavior: "smooth" });
-  });
+  // tombol: geser tepat 1 kolom tanggal per tap, jadi pergerakannya presisi per tanggal.
+  // Catatan: sebagian WebView Android tidak langsung menjalankan scrollBy({behavior:"smooth"})
+  // sebelum area digeser manual sekali oleh jari (butuh "sentuhan pertama" untuk mengaktifkan
+  // scrolling terprogram). Untuk itu geser dilakukan manual lewat requestAnimationFrame supaya
+  // tombol langsung merespons sejak tap pertama, di semua browser.
+  let schedAnim = null;
+  function animateScrollTo(target, duration){
+    if(schedAnim) cancelAnimationFrame(schedAnim);
+    const start = schedScroll.scrollLeft;
+    const change = target - start;
+    const startTime = performance.now();
+    if(change === 0){ updateSchedControls(); return; }
+    function step(now){
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out
+      schedScroll.scrollLeft = start + change * eased;
+      updateSchedControls();
+      if(t < 1){
+        schedAnim = requestAnimationFrame(step);
+      } else {
+        schedAnim = null;
+      }
+    }
+    schedAnim = requestAnimationFrame(step);
+  }
+
+  function schedStep(dir){
+    const max = schedScroll.scrollWidth - schedScroll.clientWidth;
+    const target = Math.max(0, Math.min(max, schedScroll.scrollLeft + dir * CELL_W));
+    animateScrollTo(target, 180);
+  }
+
+  schedPrevBtn.addEventListener("click", () => schedStep(-1));
+  schedNextBtn.addEventListener("click", () => schedStep(1));
 
   schedScroll.addEventListener("scroll", updateSchedControls, { passive:true });
   window.addEventListener("resize", updateSchedControls);
