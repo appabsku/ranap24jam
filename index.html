@@ -1117,11 +1117,31 @@
     renderCalendar();
   });
 
-  periodPill.addEventListener("click", () => {
+  periodPill.addEventListener("click", async () => {
     calYear = YEAR;
     calMonth = MONTH_INDEX;
     renderCalendar();
     openModal(calModal);
+
+    // v9: setiap kali kalender dibuka, ambil ULANG daftar bulan dari sheet.
+    // Sebelumnya monthsList hanya diambil sekali saat halaman pertama kali
+    // dimuat, jadi kalau ada bulan baru yang di-generate/diarsipkan SETELAH
+    // halaman dibuka, kalender tidak akan tahu -> salah menampilkan
+    // "Jadwal bulan ini belum dibuat" padahal datanya sebenarnya sudah ada.
+    if (!usingFallback) {
+      const calLoading = document.getElementById("calLoading");
+      try {
+        if (calLoading) calLoading.classList.add("show");
+        const listRes = await fetchJSON(GAS_URL + "?action=list");
+        monthsList = listRes.months || [];
+      } catch (err) {
+        console.error("Gagal memperbarui daftar bulan:", err);
+        // kalau gagal, biarkan monthsList lama (lebih baik daripada kosong)
+      } finally {
+        if (calLoading) calLoading.classList.remove("show");
+      }
+      renderCalendar();
+    }
   });
   document.getElementById("calModalClose").addEventListener("click", () => closeModal(calModal));
   calModal.addEventListener("click", (e) => { if(e.target === calModal) closeModal(calModal); });
