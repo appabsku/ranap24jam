@@ -1,0 +1,1193 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>RANAP 24 Jam · Puskesmas Wirosari I</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#0f5132;
+    --green-700:#1b8a5a;
+    --green-600:#22a06b;
+    --green-500:#34c283;
+    --green-100:#e6f7ee;
+    --green-50:#f4fbf7;
+    --amber:#f4a825;
+    --amber-bg:#fff4de;
+    --indigo:#5b5fe0;
+    --indigo-bg:#eceafc;
+    --gray-line:#e6ebe8;
+    --gray-txt:#6b7a72;
+    --ink:#12261e;
+    --white:#ffffff;
+    --radius:14px;
+    --shadow: 0 4px 16px rgba(15,81,50,0.08);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; height:100%;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--green-50);
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--white);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    box-shadow:0 0 40px rgba(15,81,50,0.06);
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    background: linear-gradient(160deg, var(--green-700) 0%, var(--green-600) 55%, var(--green-500) 100%);
+    color:var(--white);
+    padding:12px 14px 14px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    right:-30px; top:-30px;
+    width:160px; height:160px;
+    background: radial-gradient(circle, rgba(255,255,255,0.14) 0%, transparent 70%);
+  }
+
+  .header-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .header-left{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+
+  .brand{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    flex-shrink:0;
+  }
+  .brand-mark{
+    width:26px; height:26px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.16);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .brand-mark svg{ width:14px; height:14px; }
+  .brand-name{ line-height:1.15; text-align:right; }
+  .brand-name .k1{ font-size:8px; letter-spacing:0.1em; opacity:0.85; font-weight:600; text-transform:uppercase;}
+  .brand-name .k2{ font-size:11px; font-weight:700; }
+
+  .header-title{
+    margin-top:0;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+  .header-sub{
+    margin-top:2px;
+    font-size:9.5px;
+    opacity:0.88;
+    font-weight:500;
+  }
+
+  .period-pill{
+    margin-top:8px;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:rgba(255,255,255,0.16);
+    border:1px solid rgba(255,255,255,0.28);
+    border-radius:999px;
+    padding:4px 10px 4px 8px;
+    font-size:10.5px;
+    font-weight:600;
+    align-self:flex-start;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background 0.15s ease;
+  }
+  .period-pill:active{ background:rgba(255,255,255,0.28); }
+  .period-pill svg{ width:11px; height:11px; }
+  .period-pill .chev{
+    width:9px; height:9px; margin-left:1px; opacity:0.85;
+  }
+
+  /* kartu ringkasan shift Pagi/Siang/Malam (tab Ringkasan) */
+  .stat-strip{
+    margin:0;
+    background:var(--white);
+    border:1px solid var(--gray-line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    display:flex;
+  }
+  .stat-cell{
+    flex:1;
+    padding:16px 8px;
+    text-align:center;
+    border-right:1px solid var(--gray-line);
+  }
+  .stat-cell:last-child{ border-right:none; }
+  .stat-num{ font-family:'Plus Jakarta Sans',sans-serif; font-size:30px; font-weight:800; color:var(--green-700);}
+  .stat-lbl{ font-size:12.5px; color:var(--gray-txt); font-weight:600; margin-top:3px; text-transform:uppercase; letter-spacing:0.04em;}
+  .stat-names{
+    margin-top:12px; font-size:14.5px; font-weight:700; color:var(--ink);
+    line-height:1.7; padding:0 2px;
+    display:flex; flex-direction:column; gap:0;
+    max-height:none; overflow-y:visible;
+  }
+  .stat-names span{ display:block; }
+  .shift-pagi .stat-num{ color:var(--green-700); }
+  .shift-siang .stat-num{ color:#a9740f; }
+  .shift-malam .stat-num{ color:var(--indigo); }
+  .stat-date{
+    text-align:center; font-size:11px; font-weight:700; color:var(--gray-txt);
+    margin:10px 16px 0; letter-spacing:0.02em;
+  }
+  .date-nav{
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    margin-top:14px;
+  }
+  .date-nav-btn{
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid var(--gray-line); background:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--green-700); flex-shrink:0;
+    -webkit-tap-highlight-color:transparent;
+    transition:background 0.15s ease;
+  }
+  .date-nav-btn:active{ background:var(--green-100); }
+  .date-nav-btn svg{ width:15px; height:15px; }
+  .date-nav .stat-date{ margin:0; font-size:14px; }
+
+  /* ---------- MAIN SCROLL AREA ---------- */
+  main{
+    flex:1;
+    padding:22px 16px 90px;
+    overflow-y:auto;
+  }
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .section-head h2{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:16px; font-weight:800; margin:0;
+  }
+  .section-head span{ font-size:12px; color:var(--gray-txt); font-weight:500; }
+
+  .hint{
+    background:var(--green-100);
+    border:1px dashed var(--green-500);
+    color:var(--green-900);
+    font-size:12px;
+    font-weight:500;
+    padding:9px 12px;
+    border-radius:10px;
+    margin-bottom:16px;
+    display:flex; gap:8px; align-items:center;
+  }
+
+  /* ---------- SCHEDULE TABLE ---------- */
+  .table-wrap{
+    border:1px solid var(--gray-line);
+    border-radius:var(--radius);
+  }
+  .table-scroll{
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    max-height:calc(100vh - 210px);
+    border-radius:var(--radius);
+  }
+  table{ border-collapse:collapse; width:100%; }
+  thead th{
+    position:sticky; top:0;
+    background:var(--green-50);
+    font-size:10.5px;
+    color:var(--green-900);
+    font-weight:700;
+    padding:8px 4px;
+    text-align:center;
+    border-bottom:1px solid var(--gray-line);
+    white-space:nowrap;
+    z-index:2;
+  }
+  thead th.name-col, tbody td.name-col{
+    position:sticky; left:0;
+    background:var(--white);
+    text-align:left;
+    padding-left:12px;
+    z-index:1;
+    box-shadow:2px 0 4px rgba(0,0,0,0.03);
+    border-right:1px solid var(--gray-line);
+    min-width:110px;
+  }
+  thead th.name-col{ background:var(--green-50); z-index:4; }
+  tbody tr:nth-child(even) td.name-col{ background:#fbfefc; }
+  tbody td{
+    text-align:center;
+    padding:0;
+    border-bottom:1px solid var(--gray-line);
+    font-size:12px;
+  }
+  .staff-name{
+    font-size:15px; font-weight:800; color:var(--ink);
+    padding:12px 14px 12px 0;
+    display:block;
+    white-space:nowrap;
+  }
+  .staff-name small{
+    display:block; font-weight:500; color:var(--gray-txt); font-size:10px; margin-top:1px;
+  }
+  .cell-static{
+    width:30px; height:36px;
+    font-size:11px;
+    font-weight:800;
+    color:#c7d1cb;
+    display:flex; align-items:center; justify-content:center;
+    user-select:none;
+  }
+  .cell-static.P{ background:#e3f8ee; color:var(--green-700); }
+  .cell-static.S{ background:var(--amber-bg); color:#a9740f; }
+  .cell-static.M{ background:var(--indigo-bg); color:var(--indigo); }
+  .cell-static.L{ background:#fde3e3; color:#c3282e; }
+  .cell-static.C{ background:#e8e8e8; color:#888; }
+
+  /* kalender nasional: minggu & libur nasional */
+  th.day-red{ background:#fdecec; color:#dc2626 !important; }
+  td.day-red-col{ background:#fbc9c9; box-shadow: inset 0 -3px 0 0 #f0a3a3; }
+  td.day-red-col .cell-static{ background:#fbc9c9; color:#c3282e; }
+  td.day-red-col .cell-static.P{ background:#fbc9c9; color:#0d6b3f; }
+  td.day-red-col .cell-static.S{ background:#fbc9c9; color:#96580a; }
+  td.day-red-col .cell-static.M{ background:#fbc9c9; color:#4139a8; }
+  td.day-red-col .cell-static.L{ background:#fbc9c9; color:#c3282e; }
+  td.day-red-col .cell-static.C{ background:#fbc9c9; color:#888; }
+
+  /* ---------- LEGEND ---------- */
+  .legend-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    margin-top:14px;
+  }
+  .legend-card{
+    border:1px solid var(--gray-line);
+    border-radius:12px;
+    padding:12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .legend-dot{
+    width:32px; height:32px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:13px; flex-shrink:0;
+  }
+  .legend-txt b{ display:block; font-size:12.5px; }
+  .legend-txt span{ font-size:10.5px; color:var(--gray-txt); }
+
+  .rules-list{
+    margin-top:16px;
+    border-top:1px solid var(--gray-line);
+    padding-top:14px;
+  }
+  .rules-list li{
+    font-size:12.5px;
+    color:var(--ink);
+    margin-bottom:8px;
+    padding-left:18px;
+    position:relative;
+  }
+  .rules-list li::before{
+    content:"";
+    position:absolute; left:0; top:5px;
+    width:6px; height:6px; border-radius:50%;
+    background:var(--green-500);
+  }
+
+  /* ---------- RECAP LIST ---------- */
+  .recap-item{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 4px;
+    border-bottom:1px solid var(--gray-line);
+  }
+  .recap-item:last-child{ border-bottom:none; }
+  .avatar{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--green-100); color:var(--green-700);
+    font-weight:800; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .recap-name{ font-size:13px; font-weight:700; flex:1; }
+  .recap-tags{ display:flex; gap:5px; }
+  .tag{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-radius:8px; padding:5px 8px; min-width:32px; text-align:center; line-height:1.2;
+  }
+  .tag .tag-lbl{ font-size:10.5px; font-weight:700; opacity:0.8; }
+  .tag .tag-val{ font-size:17px; font-weight:800; margin-top:1px; }
+  .tag.P{ background:#e3f8ee; color:var(--green-700);}
+  .tag.S{ background:var(--amber-bg); color:#a9740f;}
+  .tag.M{ background:var(--indigo-bg); color:var(--indigo);}
+  .tag.L{ background:#fde3e3; color:#c3282e;}
+  .tag.C{ background:#e8e8e8; color:#888;}
+
+  /* ---------- BOTTOM NAV ---------- */
+  nav.tabbar{
+    position:sticky; bottom:0; left:0; right:0;
+    background:var(--white);
+    border-top:1px solid var(--gray-line);
+    display:flex;
+    padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+    box-shadow:0 -6px 18px rgba(15,81,50,0.06);
+  }
+  .tab-btn{
+    flex:1;
+    background:none; border:none;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:6px 2px;
+    color:var(--gray-txt);
+    font-size:10.5px;
+    font-weight:700;
+    cursor:pointer;
+    border-radius:10px;
+  }
+  .tab-btn svg{ width:20px; height:20px; }
+  .tab-btn.active{ color:var(--green-700); background:var(--green-100); }
+
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* ---------- MODAL: CALENDAR PICKER ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,38,30,0.45);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index:50;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.2s ease;
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:auto; }
+  .modal-sheet{
+    width:100%; max-width:480px;
+    background:var(--white);
+    border-radius:20px 20px 0 0;
+    padding:16px 16px calc(16px + env(safe-area-inset-bottom));
+    transform:translateY(16px);
+    transition:transform 0.22s ease;
+    max-height:82vh;
+    overflow-y:auto;
+    box-shadow:0 -10px 30px rgba(15,81,50,0.18);
+  }
+  .modal-overlay.open .modal-sheet{ transform:translateY(0); }
+  .modal-handle{
+    width:36px; height:4px; border-radius:99px;
+    background:var(--gray-line);
+    margin:0 auto 12px;
+  }
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .modal-head h3{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:15px; font-weight:800; margin:0;
+  }
+  .modal-close{
+    width:28px; height:28px; border-radius:50%;
+    border:none; background:var(--green-100); color:var(--green-900);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; flex-shrink:0;
+  }
+  .modal-close svg{ width:14px; height:14px; }
+
+  .cal-nav{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .cal-nav-btn{
+    background:none; border:1px solid var(--gray-line);
+    border-radius:8px; padding:4px 12px;
+    font-size:13px; font-weight:700; color:var(--green-700);
+    cursor:pointer;
+  }
+  .cal-nav-btn:active{ background:var(--green-100); }
+  .cal-nav-title{
+    font-size:16px; font-weight:800; font-family:'Plus Jakarta Sans',sans-serif;
+  }
+  .cal-weekdays{
+    display:grid; grid-template-columns:repeat(7,1fr);
+    margin-bottom:6px;
+  }
+  .cal-weekdays span{
+    text-align:center; font-size:10.5px; font-weight:700;
+    color:var(--gray-txt); text-transform:uppercase; letter-spacing:0.03em;
+  }
+  .cal-grid{
+    display:grid; grid-template-columns:repeat(7,1fr);
+    gap:4px;
+  }
+  .cal-cell{
+    aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12.5px; font-weight:700; color:var(--ink);
+    border-radius:10px;
+    cursor:pointer;
+    background:var(--green-50);
+    border:1px solid transparent;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .cal-cell:active{ background:var(--green-100); }
+  .cal-cell.empty{ visibility:hidden; cursor:default; }
+  .cal-cell.red{ color:#c3282e; background:#fdecec; }
+  .cal-cell.today{ border-color:var(--green-500); }
+  .cal-cell.selected{ background:var(--green-600); color:var(--white); }
+  .cal-availability{
+    font-size:11.5px; font-weight:600; text-align:center;
+    margin:-6px 0 10px; min-height:14px;
+  }
+  .cal-availability.ok{ color:var(--green-700); }
+  .cal-availability.warn{ color:#b45309; }
+  .cal-loading{
+    display:none; text-align:center; font-size:12px; font-weight:600;
+    color:var(--gray-txt); margin-top:10px;
+  }
+  .cal-loading.show{ display:block; }
+
+  /* ---------- MODAL: DAY SUMMARY ---------- */
+  .daysum-date{
+    font-size:12px; font-weight:700; color:var(--gray-txt); margin-bottom:12px;
+  }
+  .daysum-strip{ display:flex; gap:8px; }
+  .daysum-cell{
+    flex:1; text-align:center;
+    border:1px solid var(--gray-line); border-radius:12px;
+    padding:12px 6px;
+  }
+  .daysum-num{ font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; }
+  .daysum-lbl{ font-size:11px; color:var(--gray-txt); font-weight:600; margin-top:2px; text-transform:uppercase; letter-spacing:0.03em; }
+  .daysum-names{ margin-top:10px; font-size:12.5px; font-weight:700; color:var(--ink); line-height:1.7; }
+  .daysum-names span{ display:block; }
+  .daysum-pagi .daysum-num{ color:var(--green-700); }
+  .daysum-siang .daysum-num{ color:#a9740f; }
+  .daysum-malam .daysum-num{ color:var(--indigo); }
+
+  ::-webkit-scrollbar{ height:6px; width:6px; }
+  ::-webkit-scrollbar-thumb{ background:#d3ded8; border-radius:10px; }
+
+  /* ---------- LOADING / STATUS SYNC ---------- */
+  #loadingOverlay{
+    position:absolute; inset:0; z-index:50;
+    background:var(--white);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:12px;
+  }
+  #loadingOverlay.hidden{ display:none; }
+  .spinner{
+    width:34px; height:34px; border-radius:50%;
+    border:3px solid var(--green-100); border-top-color:var(--green-600);
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .loading-txt{ font-size:12.5px; color:var(--gray-txt); font-weight:600; }
+
+  .sync-banner{
+    display:none;
+    align-items:center; gap:8px;
+    background:#fff4de; color:#8a5a00;
+    border:1px dashed #f4a825;
+    font-size:11.5px; font-weight:600;
+    padding:8px 12px; margin:14px 16px 0; border-radius:10px;
+  }
+  .sync-banner.show{ display:flex; }
+  .sync-banner svg{ width:14px; height:14px; flex-shrink:0; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-txt">Memuat jadwal dari Google Sheet…</div>
+  </div>
+
+  <header>
+    <div class="header-row">
+      <div class="header-left">
+        <div class="header-title">Jadwal RANAP 24 Jam</div>
+        <div class="header-sub">Unit Rawat Inap · Jadwal Agustus 2026</div>
+        <div class="period-pill" id="periodPill">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="white" stroke-width="2"/><path d="M8 3v4M16 3v4M3 10h18" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          <span id="periodPillText">Agustus 2026</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="brand">
+        <div class="brand-mark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="brand-name">
+          <div class="k1">UPTD Puskesmas</div>
+          <div class="k2">Wirosari I</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="sync-banner" id="syncBanner">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a1.5 1.5 0 0 0 1.3 2.25h17.76a1.5 1.5 0 0 0 1.3-2.25L13.71 3.86a1.5 1.5 0 0 0-2.42 0Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="syncBannerText">Gagal memuat data terbaru dari Google Sheet. Menampilkan data cadangan.</span>
+  </div>
+
+  <main>
+
+    <!-- VIEW: RINGKASAN (Pagi/Siang/Malam) -->
+    <section id="view-ringkasan" class="view active">
+      <div class="section-head">
+        <h2>Ringkasan Shift</h2>
+        <span id="ringkasanDateLabel">Hari ini</span>
+      </div>
+      <div class="stat-strip" id="statStrip">
+        <div class="stat-cell shift-pagi">
+          <div class="stat-num" id="statPagi">0</div>
+          <div class="stat-lbl">Pagi</div>
+          <div class="stat-names" id="namesPagi">–</div>
+        </div>
+        <div class="stat-cell shift-siang">
+          <div class="stat-num" id="statSiang">0</div>
+          <div class="stat-lbl">Siang</div>
+          <div class="stat-names" id="namesSiang">–</div>
+        </div>
+        <div class="stat-cell shift-malam">
+          <div class="stat-num" id="statMalam">0</div>
+          <div class="stat-lbl">Malam</div>
+          <div class="stat-names" id="namesMalam">–</div>
+        </div>
+      </div>
+      <div class="date-nav">
+        <button class="date-nav-btn" id="prevDayBtn" aria-label="Tanggal sebelumnya">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="stat-date" id="statDate">–</div>
+        <button class="date-nav-btn" id="nextDayBtn" aria-label="Tanggal berikutnya">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- VIEW: JADWAL -->
+    <section id="view-jadwal" class="view">
+      <div class="section-head">
+        <h2>Jadwal Kerja</h2>
+        <span>Geser ke samping</span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="name-col">Petugas</th>
+                <!-- day headers injected by JS -->
+              </tr>
+            </thead>
+            <tbody id="scheduleBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: REKAP -->
+    <section id="view-rekap" class="view">
+      <div class="section-head">
+        <h2>Rekap Jam Kerja</h2>
+        <span id="rekapMonthLabel">Agustus 2026</span>
+      </div>
+      <div id="recapList"></div>
+    </section>
+
+    <!-- VIEW: LEGENDA -->
+    <section id="view-legenda" class="view">
+      <div class="section-head">
+        <h2>Legenda Shift</h2>
+        <span>Kode &amp; jam kerja</span>
+      </div>
+      <div class="legend-grid">
+        <div class="legend-card">
+          <div class="legend-dot" style="background:#e3f8ee;color:#1b8a5a;">P</div>
+          <div class="legend-txt"><b>Pagi</b><span>7 jam kerja</span></div>
+        </div>
+        <div class="legend-card">
+          <div class="legend-dot" style="background:#fff4de;color:#a9740f;">S</div>
+          <div class="legend-txt"><b>Siang</b><span>7 jam · 3 org</span></div>
+        </div>
+        <div class="legend-card">
+          <div class="legend-dot" style="background:#eceafc;color:#5b5fe0;">M</div>
+          <div class="legend-txt"><b>Malam</b><span>10 jam · 3 org</span></div>
+        </div>
+        <div class="legend-card">
+          <div class="legend-dot" style="background:#f1f2f0;color:#9aa39d;">L</div>
+          <div class="legend-txt"><b>Libur</b><span>Tidak jaga</span></div>
+        </div>
+      </div>
+      <ul class="rules-list">
+        <li>Shift Pagi: jumlah petugas menyesuaikan kebutuhan ruangan, tidak dibatasi.</li>
+        <li>Shift Siang wajib diisi oleh 3 petugas setiap harinya.</li>
+        <li>Shift Malam wajib diisi oleh 3 petugas setiap harinya.</li>
+        <li>Setelah shift Malam (M), petugas wajib libur (L) keesokan harinya.</li>
+        <li>Total jam kerja dihitung otomatis dari jumlah shift P, S, dan M per petugas.</li>
+        <li><span style="color:#dc2626;font-weight:700;">Tanggal merah</span> menandakan hari Minggu atau libur nasional.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab-btn active" data-view="ringkasan">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Home
+    </button>
+    <button class="tab-btn" data-view="jadwal">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v3M16 3v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Jadwal
+    </button>
+    <button class="tab-btn" data-view="rekap">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Rekap
+    </button>
+    <button class="tab-btn" data-view="legenda">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Legenda
+    </button>
+  </nav>
+
+  <!-- MODAL: CALENDAR PICKER -->
+  <div class="modal-overlay" id="calModal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-head">
+        <h3 id="calModalTitle">Pilih Tanggal</h3>
+        <button class="modal-close" id="calModalClose" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" id="calPrevMonth">‹</button>
+        <span class="cal-nav-title" id="calNavTitle">Agustus 2026</span>
+        <button class="cal-nav-btn" id="calNextMonth">›</button>
+      </div>
+      <div class="cal-availability" id="calAvailability"></div>
+      <div class="cal-weekdays">
+        <span>M</span><span>S</span><span>S</span><span>R</span><span>K</span><span>J</span><span>S</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-loading" id="calLoading">Memuat jadwal…</div>
+    </div>
+  </div>
+
+  <!-- MODAL: RINGKASAN SHIFT PER TANGGAL -->
+  <div class="modal-overlay" id="daysumModal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-head">
+        <h3>Ringkasan Shift</h3>
+        <button class="modal-close" id="daysumModalClose" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="daysum-date" id="daysumDate">–</div>
+      <div class="daysum-strip">
+        <div class="daysum-cell daysum-pagi">
+          <div class="daysum-num" id="daysumPagi">0</div>
+          <div class="daysum-lbl">Pagi</div>
+          <div class="daysum-names" id="daysumNamesPagi">–</div>
+        </div>
+        <div class="daysum-cell daysum-siang">
+          <div class="daysum-num" id="daysumSiang">0</div>
+          <div class="daysum-lbl">Siang</div>
+          <div class="daysum-names" id="daysumNamesSiang">–</div>
+        </div>
+        <div class="daysum-cell daysum-malam">
+          <div class="daysum-num" id="daysumMalam">0</div>
+          <div class="daysum-lbl">Malam</div>
+          <div class="daysum-names" id="daysumNamesMalam">–</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ================= SUMBER DATA: GOOGLE APPS SCRIPT WEB APP =================
+  // URL API baru
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbxYtxhX_DKLZNJxHmpMKbMoRL1DYn7zrASYe51TznGJN2u_a_Y1j9aOLan8msgtZp-L/exec";
+
+  // ================= DATA CADANGAN (FALLBACK) =================
+  const FALLBACK_YEAR = 2026;
+  const FALLBACK_MONTH_INDEX = 7;
+  const FALLBACK_DAYS_IN_MONTH = 31;
+  const FALLBACK_NATIONAL_HOLIDAYS = [17];
+  // URUTAN STAF: ELOK dan SUPARI di posisi paling atas
+  const FALLBACK_STAFF = [
+    "ELOK","SUPARI","PARYANTO","HADI","ANTON","NANIK","PUJI R","ISTIKHOMAH",
+    "IMDI","CIPUT","ARMY","ATIK","GILANG","IDA","ANETA","GUNTUR","BUDI"
+  ];
+  const FALLBACK_SCHEDULE = {
+    "ELOK":        ["P","L","P","P","P","P","P","P","L","P","P","P","P","P","P","L","P","P","P","P","P","P","L","P","P","P","P","P","P","L","P"],
+    "SUPARI":      ["P","L","P","P","P","P","P","P","L","P","P","P","P","P","P","L","P","P","P","P","P","P","L","P","P","P","P","P","P","L","P"],
+    "PARYANTO":    ["L","P","S","P","M","L","S","L","M","M","L","S","P","P","P","L","S","L","M","L","S","L","M","P","S","L","M","P","L","M","P"],
+    "HADI":        ["L","M","P","L","S","S","L","M","P","P","M","P","L","S","L","L","S","P","S","M","L","P","M","L","P","P","L","L","M","P","S"],
+    "ANTON":       ["P","L","S","M","L","P","L","S","P","S","M","L","L","M","P","L","P","S","L","M","P","M","P","L","S","P","P","L","S","L","M"],
+    "NANIK":       ["L","S","M","P","P","L","M","P","L","S","L","M","P","L","S","P","M","P","L","S","L","S","L","M","L","M","P","S","P","P","L"],
+    "PUJI R":      ["S","L","P","L","M","P","S","M","L","P","P","L","M","P","L","S","S","L","M","M","L","P","L","S","P","S","L","P","L","M","P"],
+    "ISTIKHOMAH":  ["P","L","S","M","L","S","L","P","S","L","M","M","L","P","M","P","L","S","P","P","L","L","S","M","P","L","P","S","M","L","M"],
+    "IMDI":        ["M","P","L","L","S","P","L","M","P","S","L","P","S","M","L","S","M","P","L","P","L","M","P","P","L","S","M","L","S","L","P"],
+    "CIPUT":       ["L","S","M","P","M","L","P","L","S","L","P","P","S","M","L","S","L","M","P","L","M","P","S","P","L","L","S","P","L","M","M"],
+    "ARMY":        ["M","P","L","L","S","P","L","S","P","M","P","P","L","L","S","M","P","L","S","S","M","L","L","P","M","M","P","L","L","S","S"],
+    "ATIK":        ["S","L","M","L","P","M","P","L","S","P","P","L","S","S","L","M","L","M","P","P","P","L","P","M","L","S","S","L","M","L","P"],
+    "GILANG":      ["L","M","P","S","P","L","M","P","L","L","S","S","P","L","M","M","P","L","L","S","M","P","L","S","M","P","L","S","P","S","L"],
+    "IDA":         ["M","L","P","S","L","M","P","S","L","P","L","S","M","L","M","P","P","L","S","L","P","S","P","L","S","M","L","M","P","P","L"],
+    "ANETA":       ["P","P","L","S","L","S","M","P","M","L","S","L","M","P","P","L","M","P","L","L","S","M","P","S","L","L","S","M","L","P","S"],
+    "GUNTUR":      ["P","S","L","M","L","M","P","P","L","L","S","M","P","L","S","L","P","M","P","L","S","S","M","L","P","P","L","M","P","S","L"],
+    "BUDI":        ["S","M","L","P","P","L","S","L","M","M","L","P","L","S","P","P","L","S","M","P","P","L","S","L","M","L","M","P","S","L","P"]
+  };
+
+  // ---- variabel data aktif ----
+  let STAFF = [];
+  let YEAR = FALLBACK_YEAR;
+  let MONTH_INDEX = FALLBACK_MONTH_INDEX;
+  let DAYS_IN_MONTH = FALLBACK_DAYS_IN_MONTH;
+  let HOLIDAY_FLAGS = [];
+  let schedule = {};
+  let usingFallback = false;
+
+  // ---- v8: daftar SEMUA bulan yang tersedia (aktif + arsip) & cache-nya ----
+  let monthsList = []; // isi dari action=list -> [{sheet,label,year,monthIdx,active}, ...]
+  const monthCache = {}; // sheet name -> hasil action=month (supaya tidak fetch berulang)
+
+  // ---- state kalender modal ----
+  let calYear = YEAR;
+  let calMonth = MONTH_INDEX;
+
+  function isRedDay(day){
+    if (HOLIDAY_FLAGS.length && HOLIDAY_FLAGS[day - 1] !== undefined) return !!HOLIDAY_FLAGS[day - 1];
+    const isSunday = new Date(YEAR, MONTH_INDEX, day).getDay() === 0;
+    return isSunday || FALLBACK_NATIONAL_HOLIDAYS.includes(day);
+  }
+
+  async function fetchJSON(url){
+    const res = await fetch(url, { method: "GET" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (data && data.error) throw new Error(data.error);
+    return data;
+  }
+
+  async function loadScheduleFromSheet(){
+    const listRes = await fetchJSON(GAS_URL + "?action=list");
+    monthsList = listRes.months || [];
+    if (!monthsList.length) throw new Error("Sheet jadwal belum berisi data bulan.");
+    const active = monthsList[0];
+
+    const monthRes = await fetchJSON(GAS_URL + "?action=month&sheet=" + encodeURIComponent(active.sheet));
+    monthCache[active.sheet] = monthRes;
+    applyMonthData(monthRes);
+  }
+
+  // Terapkan hasil action=month (satu bulan) ke variabel data aktif yang
+  // dipakai seluruh tampilan (Home/Jadwal/Rekap). Dipakai baik saat load
+  // pertama kali maupun saat pindah bulan lewat kalender (switchToMonth).
+  function applyMonthData(monthRes){
+    YEAR = monthRes.year;
+    MONTH_INDEX = monthRes.monthIdx;
+    DAYS_IN_MONTH = monthRes.daysInMonth;
+    HOLIDAY_FLAGS = monthRes.holidayFlags || [];
+
+    const staffList = monthRes.staff || [];
+
+    // Urutkan staff: ELOK dan SUPARI di posisi paling atas
+    const staffMap = {};
+    staffList.forEach(s => { staffMap[s.name] = s.shifts; });
+
+    // Gunakan urutan dari FALLBACK_STAFF (ELOK, SUPARI, lalu yang lain)
+    STAFF = [];
+    schedule = {};
+    FALLBACK_STAFF.forEach(name => {
+      if (staffMap[name]) {
+        STAFF.push(name);
+        schedule[name] = staffMap[name];
+      } else {
+        // Jika tidak ada di data dari sheet, gunakan fallback
+        STAFF.push(name);
+        const fb = FALLBACK_SCHEDULE[name] || [];
+        schedule[name] = Array.from({ length: DAYS_IN_MONTH }, (_, i) => fb[i] || "");
+      }
+    });
+
+    // Tambahkan staff lain yang mungkin ada di sheet tapi tidak di FALLBACK_STAFF
+    staffList.forEach(s => {
+      if (!STAFF.includes(s.name)) {
+        STAFF.push(s.name);
+        schedule[s.name] = s.shifts;
+      }
+    });
+  }
+
+  // Cari info bulan (dari monthsList hasil action=list) yang cocok dengan
+  // tahun & index bulan tertentu, atau null kalau belum ada datanya.
+  function findMonthInfo(year, monthIdx){
+    return monthsList.find(m => m.year === year && m.monthIdx === monthIdx) || null;
+  }
+
+  // Pindah tampilan aplikasi ke bulan lain yang sudah tersedia di sheet
+  // (aktif ATAU arsip), pakai cache kalau sudah pernah diambil. Balikan
+  // true kalau berhasil pindah, false kalau gagal (mis. jaringan bermasalah).
+  async function switchToMonth(info){
+    const calLoading = document.getElementById("calLoading");
+    try{
+      let monthRes = monthCache[info.sheet];
+      if(!monthRes){
+        if(calLoading) calLoading.classList.add("show");
+        monthRes = await fetchJSON(GAS_URL + "?action=month&sheet=" + encodeURIComponent(info.sheet));
+        monthCache[info.sheet] = monthRes;
+      }
+      applyMonthData(monthRes);
+      buildTableHeader();
+      updateHeaderLabels();
+      renderAll();
+      return true;
+    }catch(err){
+      console.error("Gagal memuat jadwal " + info.label + ":", err);
+      return false;
+    }finally{
+      if(calLoading) calLoading.classList.remove("show");
+    }
+  }
+
+  function useFallbackData(){
+    usingFallback = true;
+    YEAR = FALLBACK_YEAR;
+    MONTH_INDEX = FALLBACK_MONTH_INDEX;
+    DAYS_IN_MONTH = FALLBACK_DAYS_IN_MONTH;
+    HOLIDAY_FLAGS = [];
+    STAFF = FALLBACK_STAFF.slice();
+    schedule = FALLBACK_SCHEDULE;
+    monthsList = []; // mode offline: tidak ada daftar bulan lain yang bisa diakses
+    const banner = document.getElementById("syncBanner");
+    if (banner) banner.classList.add("show");
+  }
+
+  function initials(name){
+    return name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
+  }
+
+  // ---- build table header ----
+  const theadRow = document.querySelector("thead tr");
+  function buildTableHeader(){
+    while(theadRow.children.length > 1) theadRow.removeChild(theadRow.lastChild);
+    for(let d=1; d<=DAYS_IN_MONTH; d++){
+      const th = document.createElement("th");
+      th.textContent = d;
+      th.style.minWidth = "30px";
+      if(isRedDay(d)) th.classList.add("day-red");
+      theadRow.appendChild(th);
+    }
+  }
+
+  // ---- build table body ----
+  const tbody = document.getElementById("scheduleBody");
+  function renderTable(){
+    tbody.innerHTML = "";
+    STAFF.forEach(name => {
+      const tr = document.createElement("tr");
+
+      const nameTd = document.createElement("td");
+      nameTd.className = "name-col";
+      nameTd.innerHTML = `<span class="staff-name">${name}</span>`;
+      tr.appendChild(nameTd);
+
+      const shifts = schedule[name] || [];
+      for(let d=0; d<DAYS_IN_MONTH; d++){
+        const td = document.createElement("td");
+        const dayNum = d + 1;
+        if(isRedDay(dayNum)) td.classList.add("day-red-col");
+        const cell = document.createElement("div");
+        const val = shifts[d] || "·";
+        cell.className = "cell-static" + (val !== "·" ? " " + val : "");
+        cell.textContent = val;
+        td.appendChild(cell);
+        tr.appendChild(td);
+      }
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ---- recap ----
+  const recapList = document.getElementById("recapList");
+  function renderRecap(){
+    recapList.innerHTML = "";
+    STAFF.forEach(name => {
+      const counts = { P:0, S:0, M:0, L:0, C:0 };
+      const shifts = schedule[name] || [];
+      shifts.forEach(v => { if(counts[v] !== undefined) counts[v]++; });
+      const jam = counts.P*7 + counts.S*7 + counts.M*10;
+      const row = document.createElement("div");
+      row.className = "recap-item";
+      row.innerHTML = `
+        <div class="avatar">${initials(name)}</div>
+        <div class="recap-name">${name}<div style="font-weight:500;color:var(--gray-txt);font-size:10.5px;margin-top:2px;">${jam} jam bulan ini</div></div>
+        <div class="recap-tags">
+          <span class="tag P"><span class="tag-lbl">P</span><span class="tag-val">${counts.P}</span></span>
+          <span class="tag S"><span class="tag-lbl">S</span><span class="tag-val">${counts.S}</span></span>
+          <span class="tag M"><span class="tag-lbl">M</span><span class="tag-val">${counts.M}</span></span>
+          <span class="tag L"><span class="tag-lbl">L</span><span class="tag-val">${counts.L}</span></span>
+          ${counts.C > 0 ? `<span class="tag C"><span class="tag-lbl">C</span><span class="tag-val">${counts.C}</span></span>` : ''}
+        </div>`;
+      recapList.appendChild(row);
+    });
+  }
+
+  // ---- stats strip ----
+  const BULAN_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const HARI_ID = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+
+  function storageKey(){
+    return "ranap_selected_day_" + YEAR + "_" + MONTH_INDEX;
+  }
+  function getTodayDay(){
+    const now = new Date();
+    return (now.getFullYear() === YEAR && now.getMonth() === MONTH_INDEX) ? now.getDate() : 1;
+  }
+  function loadSelectedDay(){
+    let saved = NaN;
+    try{ saved = parseInt(localStorage.getItem(storageKey()), 10); }catch(e){}
+    return (saved >= 1 && saved <= DAYS_IN_MONTH) ? saved : getTodayDay();
+  }
+  function saveSelectedDay(day){
+    try{ localStorage.setItem(storageKey(), String(day)); }catch(e){}
+  }
+
+  let selectedDay = 1;
+
+  function renderStats(day){
+    selectedDay = day || selectedDay;
+    const dayIdx = selectedDay - 1;
+
+    const onShift = { P: [], S: [], M: [] };
+    STAFF.forEach(name => {
+      const shifts = schedule[name] || [];
+      const v = shifts[dayIdx];
+      if(onShift[v]) onShift[v].push(name);
+    });
+
+    document.getElementById("statPagi").textContent = onShift.P.length;
+    document.getElementById("statSiang").textContent = onShift.S.length;
+    document.getElementById("statMalam").textContent = onShift.M.length;
+
+    const toLines = (arr) => arr.length ? arr.map(n => `<span>${n}</span>`).join("") : "<span>Belum ada</span>";
+    document.getElementById("namesPagi").innerHTML = toLines(onShift.P);
+    document.getElementById("namesSiang").innerHTML = toLines(onShift.S);
+    document.getElementById("namesMalam").innerHTML = toLines(onShift.M);
+
+    const dateLabel = `${HARI_ID[new Date(YEAR, MONTH_INDEX, selectedDay).getDay()]}, ${selectedDay} ${BULAN_ID[MONTH_INDEX]} ${YEAR}`;
+    const pillText = document.getElementById("periodPillText");
+    pillText.textContent = dateLabel;
+    document.getElementById("ringkasanDateLabel").textContent = dateLabel;
+    document.getElementById("statDate").textContent = dateLabel;
+
+    saveSelectedDay(selectedDay);
+  }
+
+  function goToDay(day){
+    const clamped = Math.min(Math.max(day, 1), DAYS_IN_MONTH);
+    renderStats(clamped);
+  }
+
+  document.getElementById("prevDayBtn").addEventListener("click", () => goToDay(selectedDay - 1));
+  document.getElementById("nextDayBtn").addEventListener("click", () => goToDay(selectedDay + 1));
+
+  function renderAll(){
+    renderTable();
+    renderRecap();
+    renderStats(selectedDay);
+    document.getElementById("rekapMonthLabel").textContent = BULAN_ID[MONTH_INDEX] + " " + YEAR;
+  }
+
+  function updateHeaderLabels(){
+    document.querySelector(".header-sub").textContent =
+      "Unit Rawat Inap · Jadwal " + BULAN_ID[MONTH_INDEX] + " " + YEAR;
+  }
+
+  // ---- MODAL: KALENDER dengan navigasi bulan ----
+  const calModal = document.getElementById("calModal");
+  const calGrid = document.getElementById("calGrid");
+  const periodPill = document.getElementById("periodPill");
+
+  function openModal(el){ el.classList.add("open"); }
+  function closeModal(el){ el.classList.remove("open"); }
+
+  function renderCalendar(){
+    document.getElementById("calNavTitle").textContent = BULAN_ID[calMonth] + " " + calYear;
+    calGrid.innerHTML = "";
+    const firstWeekday = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = new Date();
+    const todayDay = (today.getFullYear() === calYear && today.getMonth() === calMonth) ? today.getDate() : -1;
+
+    const holidaySet = [];
+    for(let d=1; d<=daysInMonth; d++){
+      const isSunday = new Date(calYear, calMonth, d).getDay() === 0;
+      const isNationalHoliday = FALLBACK_NATIONAL_HOLIDAYS.includes(d) && calYear === FALLBACK_YEAR && calMonth === FALLBACK_MONTH_INDEX;
+      holidaySet.push(isSunday || isNationalHoliday);
+    }
+
+    // ---- v8: kasih tahu apakah bulan yang sedang dilihat di kalender ini
+    // sudah punya jadwal (aktif atau arsip) atau belum ----
+    const noteEl = document.getElementById("calAvailability");
+    const isLoadedMonth = (calYear === YEAR && calMonth === MONTH_INDEX);
+    const otherInfo = isLoadedMonth ? null : findMonthInfo(calYear, calMonth);
+    if(noteEl){
+      if(isLoadedMonth){
+        noteEl.textContent = "";
+        noteEl.className = "cal-availability";
+      } else if(otherInfo){
+        noteEl.textContent = "Jadwal tersedia — ketuk tanggal untuk membukanya";
+        noteEl.className = "cal-availability ok";
+      } else {
+        noteEl.textContent = usingFallback
+          ? "Mode offline: hanya bulan yang sedang tampil yang bisa dibuka"
+          : "Jadwal bulan ini belum dibuat";
+        noteEl.className = "cal-availability warn";
+      }
+    }
+
+    for(let i=0; i<firstWeekday; i++){
+      const empty = document.createElement("div");
+      empty.className = "cal-cell empty";
+      calGrid.appendChild(empty);
+    }
+    for(let d=1; d<=daysInMonth; d++){
+      const cell = document.createElement("div");
+      cell.className = "cal-cell";
+      cell.textContent = d;
+      if(holidaySet[d-1]) cell.classList.add("red");
+      if(d === todayDay) cell.classList.add("today");
+      if(d === selectedDay && isLoadedMonth) cell.classList.add("selected");
+      cell.addEventListener("click", async () => {
+        if(isLoadedMonth){
+          selectedDay = d;
+          closeModal(calModal);
+          showDaySummary(d);
+          return;
+        }
+        const info = findMonthInfo(calYear, calMonth);
+        if(!info) return; // belum ada jadwalnya, catatan di atas grid sudah menjelaskan ini
+        const ok = await switchToMonth(info);
+        if(!ok) return;
+        selectedDay = Math.min(d, DAYS_IN_MONTH);
+        closeModal(calModal);
+        showDaySummary(selectedDay);
+      });
+      calGrid.appendChild(cell);
+    }
+  }
+
+  document.getElementById("calPrevMonth").addEventListener("click", () => {
+    calMonth--;
+    if(calMonth < 0){ calMonth = 11; calYear--; }
+    renderCalendar();
+  });
+
+  document.getElementById("calNextMonth").addEventListener("click", () => {
+    calMonth++;
+    if(calMonth > 11){ calMonth = 0; calYear++; }
+    renderCalendar();
+  });
+
+  periodPill.addEventListener("click", () => {
+    calYear = YEAR;
+    calMonth = MONTH_INDEX;
+    renderCalendar();
+    openModal(calModal);
+  });
+  document.getElementById("calModalClose").addEventListener("click", () => closeModal(calModal));
+  calModal.addEventListener("click", (e) => { if(e.target === calModal) closeModal(calModal); });
+
+  // ---- MODAL: ringkasan shift per tanggal ----
+  const daysumModal = document.getElementById("daysumModal");
+
+  function showDaySummary(day){
+    const onShift = { P: [], S: [], M: [] };
+    STAFF.forEach(name => {
+      const shifts = schedule[name] || [];
+      const v = shifts[day - 1];
+      if(onShift[v]) onShift[v].push(name);
+    });
+    const toLines = (arr) => arr.length ? arr.map(n => `<span>${n}</span>`).join("") : "<span>Belum ada</span>";
+
+    document.getElementById("daysumPagi").textContent = onShift.P.length;
+    document.getElementById("daysumSiang").textContent = onShift.S.length;
+    document.getElementById("daysumMalam").textContent = onShift.M.length;
+    document.getElementById("daysumNamesPagi").innerHTML = toLines(onShift.P);
+    document.getElementById("daysumNamesSiang").innerHTML = toLines(onShift.S);
+    document.getElementById("daysumNamesMalam").innerHTML = toLines(onShift.M);
+
+    const dateLabel = `${HARI_ID[new Date(YEAR, MONTH_INDEX, day).getDay()]}, ${day} ${BULAN_ID[MONTH_INDEX]} ${YEAR}`;
+    document.getElementById("daysumDate").textContent = dateLabel;
+
+    renderStats(day);
+    openModal(daysumModal);
+  }
+
+  function closeDaysumAndResetToToday(){
+    closeModal(daysumModal);
+    goToDay(getTodayDay());
+  }
+  document.getElementById("daysumModalClose").addEventListener("click", closeDaysumAndResetToToday);
+  daysumModal.addEventListener("click", (e) => { if(e.target === daysumModal) closeDaysumAndResetToToday(); });
+
+  // ---- tab navigation ----
+  const tabs = document.querySelectorAll(".tab-btn");
+  tabs.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabs.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      document.getElementById("view-" + btn.dataset.view).classList.add("active");
+    });
+  });
+
+  // ---- inisialisasi ----
+  async function init(){
+    try{
+      await loadScheduleFromSheet();
+    }catch(err){
+      console.error("Gagal memuat data dari Google Sheet:", err);
+      useFallbackData();
+    }
+
+    selectedDay = loadSelectedDay();
+    buildTableHeader();
+    updateHeaderLabels();
+    renderAll();
+
+    const overlay = document.getElementById("loadingOverlay");
+    if(overlay) overlay.classList.add("hidden");
+  }
+  init();
+</script>
+</body>
+</html>
