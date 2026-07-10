@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -414,42 +413,46 @@
     background:var(--green-500);
   }
 
-  /* ---------- RECAP LIST ---------- */
+  /* ---------- RECAP LIST — satu baris: nama | jam kerja | P S M L C ---------- */
   .recap-item{
     display:flex; align-items:center; gap:6px;
-    padding:4px 3px;
+    padding:6px 3px;
     border-bottom:1px solid var(--gray-line);
   }
   .recap-item:last-child{ border-bottom:none; }
   .avatar{
-    width:22px; height:22px; border-radius:50%;
+    width:18px; height:18px; border-radius:50%;
     background:var(--green-100); color:var(--green-700);
-    font-weight:800; font-size:10px;
+    font-weight:800; font-size:8.5px;
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
     font-variant-numeric:tabular-nums;
   }
-  .recap-name{ font-size:10.5px; font-weight:700; flex:1; min-width:0; }
+  .recap-name{
+    font-size:10.5px; font-weight:700; color:var(--ink);
+    flex:0 0 88px; width:88px; min-width:0;
+  }
   .recap-name-txt{
     display:block;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .recap-jam{
-    font-weight:500; color:var(--gray-txt); font-size:8px; margin-top:0;
+  .recap-jam-mid{
+    flex:0 0 58px; width:58px; min-width:0;
+    text-align:center;
+    font-size:9.5px; font-weight:600; color:var(--gray-txt);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .recap-tags{ display:flex; gap:2px; flex-shrink:0; }
+  .recap-tags{ display:flex; gap:7px; flex:1; justify-content:flex-end; flex-shrink:0; }
   .tag{
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    border-radius:5px; padding:2px 3px; min-width:18px; text-align:center; line-height:1.1;
+    font-size:9.5px; font-weight:800;
+    white-space:nowrap;
   }
-  .tag .tag-lbl{ font-size:7px; font-weight:700; opacity:0.8; }
-  .tag .tag-val{ font-size:10.5px; font-weight:800; margin-top:0; }
-  .tag.P{ background:#e3f8ee; color:var(--green-700);}
-  .tag.S{ background:var(--amber-bg); color:#a9740f;}
-  .tag.M{ background:var(--indigo-bg); color:var(--indigo);}
-  .tag.L{ background:#fde3e3; color:#c3282e;}
-  .tag.C{ background:#e8e8e8; color:#888;}
+  .tag.P{ color:var(--green-700);}
+  .tag.S{ color:#a9740f;}
+  .tag.M{ color:var(--indigo);}
+  .tag.L{ color:#c3282e;}
+  .tag.C{ color:#888;}
+
 
   /* ---------- BOTTOM NAV ---------- */
   nav.tabbar{
@@ -1139,13 +1142,14 @@
       row.className = "recap-item";
       row.innerHTML = `
         <div class="avatar">${idx + 1}</div>
-        <div class="recap-name"><span class="recap-name-txt">${name}</span><div class="recap-jam">${jam} jam bulan ini</div></div>
+        <div class="recap-name"><span class="recap-name-txt">${name}</span></div>
+        <div class="recap-jam-mid">${jam} jam</div>
         <div class="recap-tags">
-          <span class="tag P"><span class="tag-lbl">P</span><span class="tag-val">${counts.P}</span></span>
-          <span class="tag S"><span class="tag-lbl">S</span><span class="tag-val">${counts.S}</span></span>
-          <span class="tag M"><span class="tag-lbl">M</span><span class="tag-val">${counts.M}</span></span>
-          <span class="tag L"><span class="tag-lbl">L</span><span class="tag-val">${counts.L}</span></span>
-          ${counts.C > 0 ? `<span class="tag C"><span class="tag-lbl">C</span><span class="tag-val">${counts.C}</span></span>` : ''}
+          <span class="tag P">P:${counts.P}</span>
+          <span class="tag S">S:${counts.S}</span>
+          <span class="tag M">M:${counts.M}</span>
+          <span class="tag L">L:${counts.L}</span>
+          <span class="tag C">C:${counts.C}</span>
         </div>`;
       recapList.appendChild(row);
     });
