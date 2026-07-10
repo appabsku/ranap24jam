@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -26,13 +27,14 @@
     --shadow: 0 4px 16px rgba(15,81,50,0.08);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html,body{margin:0; padding:0; height:100%;}
+  html,body{margin:0; padding:0; height:100%; overscroll-behavior-y:contain;}
   body{
     font-family:'Inter', sans-serif;
     background:var(--green-50);
     color:var(--ink);
     display:flex;
     justify-content:center;
+    overscroll-behavior-y:contain;
   }
   #app{
     width:100%;
@@ -43,6 +45,7 @@
     flex-direction:column;
     position:relative;
     box-shadow:0 0 40px rgba(15,81,50,0.06);
+    overscroll-behavior-y:contain;
   }
 
   /* ---------- HEADER ---------- */
@@ -179,6 +182,8 @@
     flex:1;
     padding:22px 16px 90px;
     overflow-y:auto;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
   }
   .section-head{
     display:flex; align-items:baseline; justify-content:space-between;
@@ -212,6 +217,8 @@
     -webkit-overflow-scrolling:touch;
     max-height:calc(100vh - 210px);
     border-radius:var(--radius);
+    overscroll-behavior:contain;
+    touch-action:pan-x pan-y;
   }
   table{ border-collapse:collapse; width:100%; }
   thead th{
@@ -519,7 +526,7 @@
 
   <div id="loadingOverlay">
     <div class="spinner"></div>
-    <div class="loading-txt">Memuat jadwal dari Google Sheet…</div>
+    <div class="loading-txt">Memuat jadwal Ke SERVER...</div>
   </div>
 
   <header>
@@ -731,7 +738,7 @@
 <script>
   // ================= SUMBER DATA: GOOGLE APPS SCRIPT WEB APP =================
   // URL API baru
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzuoOmm26NNuP3IxHNSP_S16gr0S8pk09Y4Jz4RBVcGU5BVAwKlm6nMAYwlsvnRUvGh/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbxYtxhX_DKLZNJxHmpMKbMoRL1DYn7zrASYe51TznGJN2u_a_Y1j9aOLan8msgtZp-L/exec";
 
   // ================= DATA CADANGAN (FALLBACK) =================
   const FALLBACK_YEAR = 2026;
@@ -798,7 +805,13 @@
     const listRes = await fetchJSON(GAS_URL + "?action=list");
     monthsList = listRes.months || [];
     if (!monthsList.length) throw new Error("Sheet jadwal belum berisi data bulan.");
-    const active = monthsList[0];
+
+    // Selalu buka bulan yang sesuai tanggal asli perangkat (dd/mm/yyyy) saat
+    // pertama kali dibuka, kalau jadwalnya sudah tersedia di sheet. Kalau
+    // bulan berjalan belum ada datanya, baru jatuh ke bulan pertama di daftar.
+    const now = new Date();
+    const todayInfo = findMonthInfo(now.getFullYear(), now.getMonth());
+    const active = todayInfo || monthsList[0];
 
     const monthRes = await fetchJSON(GAS_URL + "?action=month&sheet=" + encodeURIComponent(active.sheet));
     monthCache[active.sheet] = monthRes;
